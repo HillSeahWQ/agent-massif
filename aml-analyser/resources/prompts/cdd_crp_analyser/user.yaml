@@ -1,0 +1,62 @@
+name: cdd_crp_analyser_user
+version: 1.0
+role: user
+
+template: |
+  ## ALERT INFORMATION
+  {{alert_information}}
+
+  ## CDD/CRP DOCUMENTATION
+  You have been provided with the following CDD/CRP documents to analyze:
+
+  {{cdd_crp_documents}}
+
+  ## AVAILABLE REQUEST FOR INFORMATION (RFI) OPTIONS
+  The following RFI options are available if information gaps are identified:
+
+  {{rfi_options}}
+
+  {% if additional_context %}
+  ## ADDITIONAL CONTEXT
+  {{additional_context}}
+  {% endif %}
+
+  ## ANALYSIS INSTRUCTIONS
+
+  Conduct a comprehensive CDD/CRP analysis following these steps:
+
+  1. COMPANY PROFILE EXTRACTION
+     - Extract company registration and profile details
+     - Identify jurisdiction and assess jurisdiction risk
+     - Determine business nature and industry sector
+     - Assess business substance
+
+  2. BENEFICIAL OWNERSHIP ANALYSIS
+     - Identify beneficial owners, directors, shareholders
+     - Map ownership structure
+     - Verify UBO information
+     - Identify PEP connections
+
+  3. RISK INDICATOR IDENTIFICATION
+     - PEP screening
+     - Sanctions screening
+     - Adverse media
+     - High-risk jurisdiction exposure
+     - Shell company indicators
+     - Unusual structures
+
+  4. DOCUMENTATION QUALITY ASSESSMENT
+     - Completeness of CDD
+     - Missing or outdated documents
+     - Data gaps requiring RFI
+
+  5. OVERALL RISK ASSESSMENT
+     - Overall CDD risk level
+     - Key risk factors
+     - Evidence-based conclusions
+
+  ## OUTPUT REQUIREMENTS
+
+  Return ONLY valid JSON conforming to the CDDCRPAnalysisOutput schema.
+
+  If information is missing or unclear, list it under `data_gaps`.
