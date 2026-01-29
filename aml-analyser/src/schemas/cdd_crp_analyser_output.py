@@ -1,0 +1,115 @@
+"""
+CDD/CRP Analyser Agent Output Schema
+
+Defines the structured output format for Customer Due Diligence and 
+Customer Risk Profile analysis.
+"""
+
+from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, Field
+from datetime import datetime
+from enum import Enum
+
+
+class RiskLevel(str, Enum):
+    """Risk level enumeration"""
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    UNKNOWN = "UNKNOWN"
+
+
+class PersonnelInfo(BaseModel):
+    """Information about company personnel"""
+    name: str = Field(..., description="Full name of the personnel")
+    role: Optional[str] = Field(None, description="Role or position in the company")
+    relationship: Optional[str] = Field(None, description="Relationship to the company (e.g., Director, Shareholder, UBO)")
+    additional_info: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Any additional relevant information")
+
+
+class CompanyProfile(BaseModel):
+    """Detailed company profile information"""
+    company_name: str = Field(..., description="Official registered company name")
+    registration_number: Optional[str] = Field(None, description="Company registration number")
+    incorporation_date: Optional[str] = Field(None, description="Date of incorporation")
+    jurisdiction: Optional[str] = Field(None, description="Country/jurisdiction of incorporation")
+    business_nature: Optional[str] = Field(None, description="Nature of business operations")
+    industry_sector: Optional[str] = Field(None, description="Industry sector classification")
+    registered_address: Optional[str] = Field(None, description="Registered business address")
+    ownership_structure: Optional[str] = Field(None, description="Description of ownership structure")
+    is_shell_company: Optional[bool] = Field(None, description="Indication if company appears to be a shell company")
+    high_risk_jurisdiction: Optional[bool] = Field(None, description="Whether company is from a high-risk jurisdiction")
+
+
+class CDDCRPRiskIndicator(BaseModel):
+    """Individual risk indicator found in CDD/CRP"""
+    indicator_type: str = Field(..., description="Type of risk indicator (e.g., 'PEP', 'Sanctions', 'High-Risk Jurisdiction')")
+    severity: RiskLevel = Field(..., description="Severity level of this indicator")
+    description: str = Field(..., description="Detailed description of the risk indicator")
+    source_document: Optional[str] = Field(None, description="Source document where this was found")
+
+
+class CDDCRPAnalysisOutput(BaseModel):
+    """Complete output schema for CDD/CRP Analyser Agent"""
+    
+    # High-level Narrative Summary
+    cdd_crp_summary: str = Field(
+        ...,
+        description=(
+            "A concise but comprehensive narrative summary of the Customer Due Diligence (CDD) "
+            "and Counterparty Risk Profile (CRP) assessment. This should describe the customer's "
+            "background, nature of business, ownership and control structure, geographic exposure, "
+            "counterparty risk, and any notable risk considerations or mitigating factors."
+        )
+    )
+
+    # Company Information
+    company_profile: CompanyProfile = Field(..., description="Investigated company profile and information")
+    
+    # Personnel Information
+    personnel: List[PersonnelInfo] = Field(
+        default_factory=list,
+        description="List of company personnel (directors, UBOs, shareholders, etc.)"
+    )
+    
+    # Risk Assessment
+    risk_indicators: List[CDDCRPRiskIndicator] = Field(
+        default_factory=list,
+        description=(
+            "List of risk indicators identified from CDD/CRP documents. "
+            "Leave empty if no risk indicators are identified."
+        )
+    )
+    overall_cdd_risk: RiskLevel = Field(..., description="Overall risk level based on CDD/CRP analysis")
+    
+    # Analysis Summary
+    key_findings: List[str] = Field(
+        default_factory=list,
+        description="Key findings from the CDD/CRP analysis"
+    )
+    red_flags: List[str] = Field(
+        default_factory=list,
+        description=(
+            "Transaction-related red flags identified"
+            "Leave empty if no red flags are present."
+        )
+    )
+    
+    # Metadata
+    documents_analyzed: List[str] = Field(
+        default_factory=list,
+        description="List of CDD/CRP documents that were analyzed"
+    )
+    analysis_timestamp: datetime = Field(
+        default_factory=datetime.utcnow,
+        description="Timestamp when analysis was completed"
+    )
+    
+    # Missing Information
+    data_gaps: List[str] = Field(
+        default_factory=list,
+        description="Identified gaps in CDD/CRP documentation"
+    )
+    
+    # Additional Context
+    notes: Optional[str] = Field(None, description="Any additional notes or context from the analysis")
