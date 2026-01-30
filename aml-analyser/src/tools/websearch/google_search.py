@@ -62,8 +62,8 @@ if __name__ == "__main__":
     gs_client = GoogleSearchClient()
 
     results = gs_client.search(
-        query="dog cafes",
-        google_domain="google.com.sg"
+        query="hong kong thousand sunny technology",
+        google_domain="google.com"
     )
 
     print(json.dumps(results, indent=2, ensure_ascii=False))
