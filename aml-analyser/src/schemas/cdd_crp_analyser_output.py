@@ -59,7 +59,7 @@ class CDDCRPAnalysisOutput(BaseModel):
             "A concise but comprehensive narrative summary of the Customer Due Diligence (CDD) "
             "and Counterparty Risk Profile (CRP) assessment. This should describe the customer's "
             "background, nature of business, ownership and control structure, geographic exposure, "
-            "counterparty risk, and any notable risk considerations or mitigating factors."
+            "any personnel information, and any notable risk considerations or mitigating factors."
         )
     )
 
@@ -85,14 +85,7 @@ class CDDCRPAnalysisOutput(BaseModel):
     # Analysis Summary
     key_findings: List[str] = Field(
         default_factory=list,
-        description="Key findings from the CDD/CRP analysis"
-    )
-    red_flags: List[str] = Field(
-        default_factory=list,
-        description=(
-            "Transaction-related red flags identified"
-            "Leave empty if no red flags are present."
-        )
+        description="Key findings from the CDD/CRP analysis and source"
     )
     
     # Metadata
