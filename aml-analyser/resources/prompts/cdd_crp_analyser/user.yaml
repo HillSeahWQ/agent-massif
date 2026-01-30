@@ -23,40 +23,6 @@ template: |
 
   ## ANALYSIS INSTRUCTIONS
 
-  Conduct a comprehensive CDD/CRP analysis following these steps:
-
-  1. COMPANY PROFILE EXTRACTION
-     - Extract company registration and profile details
-     - Identify jurisdiction and assess jurisdiction risk
-     - Determine business nature and industry sector
-     - Assess business substance
-
-  2. BENEFICIAL OWNERSHIP ANALYSIS
-     - Identify beneficial owners, directors, shareholders
-     - Map ownership structure
-     - Verify UBO information
-     - Identify PEP connections
-
-  3. RISK INDICATOR IDENTIFICATION
-     - PEP screening
-     - Sanctions screening
-     - Adverse media
-     - High-risk jurisdiction exposure
-     - Shell company indicators
-     - Unusual structures
-
-  4. DOCUMENTATION QUALITY ASSESSMENT
-     - Completeness of CDD
-     - Missing or outdated documents
-     - Data gaps requiring RFI
-
-  5. OVERALL RISK ASSESSMENT
-     - Overall CDD risk level
-     - Key risk factors
-     - Evidence-based conclusions
-
-  ## OUTPUT REQUIREMENTS
-
-  Return ONLY valid JSON conforming to the CDDCRPAnalysisOutput schema.
-
-  If information is missing or unclear, list it under `data_gaps`.
+   Perform the analysis as instructed in the system prompt.
+   Populate all fields strictly according to the defined Pydantic schema,
+   applying the provided risk definitions and interpretation rules where relevant.
